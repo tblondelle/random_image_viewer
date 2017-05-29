@@ -41,7 +41,12 @@ class Application(tk.Frame):
         self.isfullscreen = True
         self.master.attributes('-fullscreen', self.isfullscreen)
         
-
+        self.cursor = 0 # While browsing the images.
+        
+        self.pack()
+        
+        self.label = tk.Label(borderwidth=0, highlightthickness=0)
+        
         # Load list of the images.
         try:
             with open("random_viewer_config.pickle", 'rb') as f:
@@ -52,10 +57,11 @@ class Application(tk.Frame):
         except:
             self.folder = os.getcwd()
             self.list_images = self.create_list_images(self.folder)
-        
-        self.cursor = 0 # While browsing the images.
-
-        self.pack()
+       
+        while len(self.list_images) == 0:
+            messagebox.showwarning('Aucune image', "Il n'y a pas d'image au format jpg, jpeg ou png dans le dossier courant. Veuillez choisir un autre dossier.")
+            self.change_dir('_')
+       
         self.createWidgets()
 
     def create_list_images(self, folder):
@@ -67,8 +73,11 @@ class Application(tk.Frame):
         list_images = []
         for root, dirs, files in os.walk(folder):
             for file in files:
-                if file.endswith(".png") or file.endswith(".jpeg") or file.endswith(".jpg"):
+                if file.endswith(".png") or file.endswith(".jpeg") or \
+                file.endswith(".jpg") or file.endswith(".JPG") or \
+                file.endswith(".JPEG") or file.endswith(".PNG"):
                      list_images.append(os.path.join(root, file))
+
         # Randomize the list.
         random.shuffle(list_images)
         # Store in config file.
@@ -92,7 +101,7 @@ class Application(tk.Frame):
 
         # Display image.
         photo = ImageTk.PhotoImage(image)
-        self.label = tk.Label(image=photo, borderwidth=0, highlightthickness=0)
+        self.label.configure(image=photo)
         self.label.image = photo # Keep a reference (otherwise: bugs).
         self.label.pack()
 
@@ -152,8 +161,14 @@ Crédits : Thomas Blondelle, Version 1.0, mai 2017.""".format(len(self.list_imag
         if filename:
             self.folder = filename
             self.list_images = self.create_list_images(self.folder)
-            self.cursor = -1            
-            self.command_next(_)
+            
+            if len(self.list_images) == 0:
+                messagebox.showwarning('Aucune image', "Il n'y a pas d'image au format jpg, jpeg ou png dans le dossier courant. Veuillez choisir un autre dossier.")             
+                self.change_dir('_')
+            else:
+                self.cursor = -1            
+                self.command_next('_')
+
 
     def quit_window(self, event):
         self.master.quit()
