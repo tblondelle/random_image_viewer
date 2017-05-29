@@ -25,4 +25,5 @@ Optimised for **minimum distraction**.
 ## Version
 
 Version 1.0
-T. Blondelle
+
+by Thomas Blondelle
