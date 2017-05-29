@@ -1,7 +1,8 @@
 # random_image_viewer
 
-GUI for viewing all pictures randomly in a directory AND its sub-directories 
-optimised for *minimum* distraction.
+GUI for viewing all pictures randomly in a directory AND its sub-directories.
+
+Optimised for **minimum distraction**.
 
 ## Features
 * fullscreen by default;
