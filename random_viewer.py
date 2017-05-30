@@ -111,39 +111,39 @@ class Application(tk.Frame):
                              foreground='grey9',
                              relief=tk.FLAT)
         
-        self.aMenu.add_command(label="Suivant",accelerator='→, D', hidemargin=True, command=lambda :self.command_next('_'))
-        self.aMenu.add_command(label="Précédent", accelerator='←, Q',hidemargin=True, command=lambda :self.command_previous('_'))
+        self.aMenu.add_command(label="Suivant",accelerator='Espace', hidemargin=True, command=lambda :self.command_next('_'))
+        self.aMenu.add_command(label="Précédent", accelerator='Alt+Espace',hidemargin=True, command=lambda :self.command_previous('_'))
         self.aMenu.add_separator()
         self.aMenu.add_command(label="Ouvrir l'emplacement", accelerator='F2', command=lambda :self.open_location('_'))
-        self.aMenu.add_command(label="Ouvrir un nouveau dossier", accelerator='F3', command=lambda :self.change_dir('_'))
+        self.aMenu.add_command(label="Ouvrir un nouveau dossier", accelerator='Ctrl+N', command=lambda :self.change_dir('_'))
         self.aMenu.add_separator()
-        self.aMenu.add_command(label="Plein écran", accelerator='↓, F', command=lambda :self.fullscreen('_'))
+        self.aMenu.add_command(label="Plein écran", accelerator='F11', command=lambda :self.fullscreen('_'))
         self.aMenu.add_separator()
-        self.aMenu.add_command(label="Informations", accelerator='F1',command=lambda :self.help_message('_'))
+        self.aMenu.add_command(label="Informations", accelerator='F1',command=lambda :self.info_message('_'))
         self.aMenu.add_command(label="À propos", command=lambda :self.about_message('_'))
         self.aMenu.add_separator()
-        self.aMenu.add_command(label="Quitter", accelerator='Échap, ↲', command=lambda :self.quit_window('_'))
+        self.aMenu.add_command(label="Quitter", accelerator='Ctrl+W', command=lambda :self.quit_window('_'))
         
         # Add bindings.
         self.master.bind("<Right>", self.command_next)
-        self.master.bind("<d>", self.command_next)
+        self.master.bind("<space>", self.command_next)
         self.master.bind("<Left>", self.command_previous)
-        self.master.bind("<q>", self.command_previous)
+        self.master.bind("<Alt-space>", self.command_previous)
         self.master.bind("<MouseWheel>", self.command_mouse)
-        self.master.bind("<Down>", self.fullscreen)
-        self.master.bind("<f>", self.fullscreen)
         self.master.bind("<F11>", self.fullscreen)
         self.master.bind("<Return>", self.quit_window)
         self.master.bind("<Escape>", self.quit_window)
+        self.master.bind("<Control-w>", self.quit_window)
         self.master.bind("<Button-2>", self.quit_window)
-        self.master.bind("<F1>", self.help_message)
-        self.master.bind("<Button-1>", self.help_message)
+        self.master.bind("<F1>", self.info_message)
+        self.master.bind("<Double-Button-1>", self.info_message)
         self.master.bind("<F2>", self.open_location)
-        self.master.bind("<F3>", self.change_dir)
+        self.master.bind("<Control-n>", self.change_dir)
         self.master.bind("<Button-3>", self.context_menu)
     
     def open_location(self, event):
-        
+        """Callback function which open a windows explorer window
+        selecting the current image file"""
         path = self.list_images[self.index].replace("/", "\\")
         subprocess.call(r'explorer /select,"{}"'.format(path))
         
@@ -151,7 +151,7 @@ class Application(tk.Frame):
     def context_menu(self, event):
         self.aMenu.post(event.x_root, event.y_root)
     
-    def help_message(self, event):
+    def info_message(self, event):
         """Event which creates on message window about help."""
         name = self.list_images[self.index].split(self.folder)[1]
 
@@ -165,7 +165,7 @@ Nom de l'image actuelle :
 
 Index actuel : 
     Image {} sur {}""".format(self.folder, name, self.index+1, len(self.list_images))
-        messagebox.showinfo('Aide', help_text)
+        messagebox.showinfo('Informations', help_text)
         
     def about_message(self, event):
         """Event which creates on message window about about."""
