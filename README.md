@@ -1,12 +1,10 @@
 # random_image_viewer
 
-Windows GUI for randomly browsing all pictures in a directory AND its sub-directories.
+Windows GUI for randomly browsing all pictures in a directory and its sub-directories.
 
-Optimised for **minimum distraction**: no buttons, only the image matters.
-
-**Easy** to install: no bizarre packages needed.
-
-**Easy** to customize: straightforward, structured, *commented*  code.
+* Optimised for **minimum distraction**: no buttons, no menus, only the image matters.
+* **Easy to install**: no bizarre packages needed.
+* **Easy to customize**: straightforward, structured, commented code.
 
 ## Requirements
 * Windows
@@ -20,15 +18,15 @@ Optimised for **minimum distraction**: no buttons, only the image matters.
 
 ## Controls
 
-| Command          | Keyboard   | Mouse          |
-|------------------|------------|----------------|
-| Previous         | Space      | Scroll up      |
-| Next             | Alt+Space  | Scroll down    |
-| Open location    | F2         |                |
-| Change directory | Ctrl+N     |                |
-| Fullscreen       | F11        |                |
-| Information      | F1         | Double click   |
-| Quit             | Ctrl+W     | Mousewheel     |
+| Command          | Keyboard   | Mouse        |
+|------------------|------------|--------------|
+| Next             | Space      | Scroll up    |
+| Previous         | Alt+Space  | Scroll down  |
+| Open location    | F2         |              |
+| Change directory | Ctrl+N     |              |
+| Fullscreen       | F11        |              |
+| Information      | F1         | Double click |
+| Quit             | Ctrl+W     | Mousewheel   |
 
 ## About
 
