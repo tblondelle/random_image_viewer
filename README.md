@@ -4,9 +4,9 @@ Windows GUI for randomly browsing all pictures in a directory AND its sub-direct
 
 Optimised for **minimum distraction**: no buttons, only the image matters.
 
-**Easy** to install: no fancy packages needed.
+**Easy** to install: no bizarre packages needed.
 
-**Easy** to customize: straightforward and structured code and extensive comments.
+**Easy** to customize: straightforward, structured, *commented*  code.
 
 ## Requirements
 * Windows
@@ -15,28 +15,24 @@ Optimised for **minimum distraction**: no buttons, only the image matters.
 * tkinter
 
 ## Features
-* fullscreen by default;
 * .jpg, .jpeg, .png accepted;
-* mouse-controlled or/and keyboard-controlled;
-* change directory.
+* total control with mouse or keyboard only.
 
 ## Controls
 
-| Command          | Keyboard       | Mouse          |
-|------------------|----------------|----------------|
-| Previous         | LEFT, Q        | Scroll up      |
-| Next             | RIGHT, D       | Scroll down    |
-| Fullscreen       | DOWN, F, F11   |                |
-| Information      | F1             | Left click     |
-| Open file in explorer | F2        |                |
-| Change directory | F3             |                |
-| Quit             | Escape, Returns| Mousewheel     |
+| Command          | Keyboard   | Mouse          |
+|------------------|------------|----------------|
+| Previous         | Space      | Scroll up      |
+| Next             | Alt+Space  | Scroll down    |
+| Open location    | F2         |                |
+| Change directory | Ctrl+N     |                |
+| Fullscreen       | F11        |                |
+| Information      | F1         | Double click   |
+| Quit             | Ctrl+W     | Mousewheel     |
 
-## Version
+## About
 
-Version 1.1
-
-by Thomas Blondelle
+Version 1.1. By Thomas Blondelle.
 
 ## Ideas to improve it
 * In fullscreen: hoovering in the top right corner reveal a cross to quit
