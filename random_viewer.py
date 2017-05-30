@@ -11,12 +11,13 @@ from PIL import Image
 from PIL import ImageTk
 
 import tkinter as tk
-import tkinter.filedialog
+from tkinter import filedialog
 from tkinter import messagebox
 
 import random
 import os
 import pickle
+import subprocess
 
 
 class Application(tk.Frame):
@@ -41,7 +42,7 @@ class Application(tk.Frame):
         self.isfullscreen = True
         self.master.attributes('-fullscreen', self.isfullscreen)
         
-        self.cursor = 0 # While browsing the images.
+        self.index = 0 # While browsing the images.
         
         self.pack()
         
@@ -91,8 +92,7 @@ class Application(tk.Frame):
 
         # Open image file.
         self.image = Image.open(self.list_images[0])
-        print('{}/{}. {}'.format(self.cursor + 1 , len(self.list_images), 
-              self.list_images[self.cursor]))
+        print('Image {}/{}'.format(self.index + 1 , len(self.list_images)))
 
         # Resize image.
         window_height = root.winfo_screenheight()
@@ -104,7 +104,26 @@ class Application(tk.Frame):
         self.label.configure(image=photo)
         self.label.image = photo # Keep a reference (otherwise: bugs).
         self.label.pack()
-
+        
+        # Create a context_menu menu.
+        self.aMenu = tk.Menu(self, tearoff=0, 
+                             background='white', 
+                             foreground='grey9',
+                             relief=tk.FLAT)
+        
+        self.aMenu.add_command(label="Suivant",accelerator='→, D', hidemargin=True, command=lambda :self.command_next('_'))
+        self.aMenu.add_command(label="Précédent", accelerator='←, Q',hidemargin=True, command=lambda :self.command_previous('_'))
+        self.aMenu.add_separator()
+        self.aMenu.add_command(label="Ouvrir l'emplacement", accelerator='F2', command=lambda :self.open_location('_'))
+        self.aMenu.add_command(label="Ouvrir un nouveau dossier", accelerator='F3', command=lambda :self.change_dir('_'))
+        self.aMenu.add_separator()
+        self.aMenu.add_command(label="Plein écran", accelerator='↓, F', command=lambda :self.fullscreen('_'))
+        self.aMenu.add_separator()
+        self.aMenu.add_command(label="Informations", accelerator='F1',command=lambda :self.help_message('_'))
+        self.aMenu.add_command(label="À propos", command=lambda :self.about_message('_'))
+        self.aMenu.add_separator()
+        self.aMenu.add_command(label="Quitter", accelerator='Échap, ↲', command=lambda :self.quit_window('_'))
+        
         # Add bindings.
         self.master.bind("<Right>", self.command_next)
         self.master.bind("<d>", self.command_next)
@@ -119,34 +138,39 @@ class Application(tk.Frame):
         self.master.bind("<Button-2>", self.quit_window)
         self.master.bind("<F1>", self.help_message)
         self.master.bind("<Button-1>", self.help_message)
-        self.master.bind("<F2>", self.filename_message)
-        self.master.bind("<Button-3>", self.filename_message)
+        self.master.bind("<F2>", self.open_location)
         self.master.bind("<F3>", self.change_dir)
+        self.master.bind("<Button-3>", self.context_menu)
+    
+    def open_location(self, event):
         
+        path = self.list_images[self.index].replace("/", "\\")
+        subprocess.call(r'explorer /select,"{}"'.format(path))
+        
+
+    def context_menu(self, event):
+        self.aMenu.post(event.x_root, event.y_root)
     
     def help_message(self, event):
         """Event which creates on message window about help."""
-        help_text = """Affiche une image .jpg, .jpeg, ou .png au hasard se trouvant parmi les {} existantes dans le répertoire ou les sous-répertoires de :
-   "{}"
+        name = self.list_images[self.index].split(self.folder)[1]
 
-Navigation :
-   * Précédant : GAUCHE, Q, Scroll haut
-   * Suivant : DROIT, D, Scroll bas
-   * Plein écran : BAS, F, F11
-   * Aide : F1, Clic gauche
-   * Nom de l'image actuelle : F2, Clic droit
-   * Changer de répertoire : F3
-   * Quitter : Entrée, Echap, Molette
-   
-Crédits : Thomas Blondelle, Version 1.0, mai 2017.""".format(len(self.list_images), self.folder)
-        
+        help_text = """Affiche une image .jpg, .jpeg, ou .png au hasard se trouvant dans le répertoire ou les sous-répertoires sélectionnés.
+
+Répertoire courant :
+    "{}"
+
+Nom de l'image actuelle :
+    "{}"
+
+Index actuel : 
+    Image {} sur {}""".format(self.folder, name, self.index+1, len(self.list_images))
         messagebox.showinfo('Aide', help_text)
         
-    def filename_message(self, event):
-        """Event that display the filename of the current image."""
-        messagebox.showinfo("Info", "Nom du fichier :\n{}".format(self.list_images[self.cursor]))
-        
-        
+    def about_message(self, event):
+        """Event which creates on message window about about."""
+        messagebox.showinfo('À propos', """Crédits : Thomas Blondelle, Version 1.1, mai 2017.""")
+    
     def change_dir(self, event):
         """ Change the current directory and modify the config file."""
         # get filename
@@ -156,7 +180,7 @@ Crédits : Thomas Blondelle, Version 1.0, mai 2017.""".format(len(self.list_imag
         dir_opt['parent'] = self.master
         dir_opt['title'] = 'Choisissez un nouveau dossier'
     
-        filename = tkinter.filedialog.askdirectory(**dir_opt)
+        filename = filedialog.askdirectory(**dir_opt)
         
         if filename:
             self.folder = filename
@@ -166,9 +190,8 @@ Crédits : Thomas Blondelle, Version 1.0, mai 2017.""".format(len(self.list_imag
                 messagebox.showwarning('Aucune image', "Il n'y a pas d'image au format jpg, jpeg ou png dans le dossier courant. Veuillez choisir un autre dossier.")             
                 self.change_dir('_')
             else:
-                self.cursor = -1            
+                self.index = -1            
                 self.command_next('_')
-
 
     def quit_window(self, event):
         self.master.quit()
@@ -185,12 +208,12 @@ Crédits : Thomas Blondelle, Version 1.0, mai 2017.""".format(len(self.list_imag
 
     def command_next(self,event):
         """ Callback function which displays the next image."""
-        # Update cursor if possible.
-        if self.cursor != len(self.list_images)-1:
-            self.cursor += 1
+        # Update index if possible.
+        if self.index != len(self.list_images)-1:
+            self.index += 1
         
         # Open new image.
-        self.image = Image.open(self.list_images[self.cursor])
+        self.image = Image.open(self.list_images[self.index])
 
         # Resize image.
         window_height = root.winfo_screenheight()
@@ -201,17 +224,16 @@ Crédits : Thomas Blondelle, Version 1.0, mai 2017.""".format(len(self.list_imag
         photo = ImageTk.PhotoImage(image)
         self.label.image = photo
         self.label.configure(image=photo)
-        print('{}/{} - {}'.format(self.cursor + 1 , len(self.list_images), 
-              self.list_images[self.cursor]))
+        print('Image {}/{}'.format(self.index + 1 , len(self.list_images)))
 
     def command_previous(self,event):
         """ Callback function which displays the previous image."""
-        # Update cursor if possible        
-        if self.cursor != 0:
-            self.cursor -= 1
+        # Update index if possible        
+        if self.index != 0:
+            self.index -= 1
         
         # Open new image.
-        self.image = Image.open(self.list_images[self.cursor])
+        self.image = Image.open(self.list_images[self.index])
 
         # Resize image.
         window_height = root.winfo_screenheight()
@@ -222,8 +244,7 @@ Crédits : Thomas Blondelle, Version 1.0, mai 2017.""".format(len(self.list_imag
         photo = ImageTk.PhotoImage(image)
         self.label.image = photo
         self.label.configure(image=photo)
-        print('{}/{} - {}'.format(self.cursor + 1 , len(self.list_images), 
-              self.list_images[self.cursor]))
+        print('Image {}/{}'.format(self.index + 1 , len(self.list_images)))
 
 
 root = tk.Tk()
