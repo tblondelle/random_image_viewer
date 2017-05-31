@@ -3,7 +3,7 @@
 Windows GUI for randomly browsing all pictures in a directory and its sub-directories.
 
 * Optimised for **minimum distraction**: no buttons, no menus, only the image matters.
-* **Easy to install**: no bizarre packages needed.
+* **Easy to install**: no bizarre packages needed, just launch.
 * **Easy to customize**: straightforward, structured, commented code.
 
 ## Requirements
@@ -20,8 +20,8 @@ Windows GUI for randomly browsing all pictures in a directory and its sub-direct
 
 | Command          | Keyboard   | Mouse        |
 |------------------|------------|--------------|
-| Next             | Space      | Scroll up    |
-| Previous         | Alt+Space  | Scroll down  |
+| Next             | Space      | Scroll down  |
+| Previous         | Alt+Space  | Scroll up    |
 | Open location    | F2         |              |
 | Change directory | Ctrl+N     |              |
 | Fullscreen       | F11        |              |
@@ -33,7 +33,7 @@ Windows GUI for randomly browsing all pictures in a directory and its sub-direct
 Version 1.1. By Thomas Blondelle.
 
 ## Ideas to improve it
-* In fullscreen: hoovering in the top right corner reveal a cross to quit
+* In fullscreen: hoovering in the top right corner reveals a cross to quit;
 * Speed
 
 
