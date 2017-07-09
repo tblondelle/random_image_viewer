@@ -3,7 +3,6 @@
 Windows GUI for randomly browsing all pictures in a directory and its sub-directories.
 
 * Optimised for **minimum distraction**: no buttons, no menus, only the image matters.
-* **Easy to install**: no bizarre packages needed, just launch.
 * **Easy to customize**: straightforward, structured, commented code.
 
 ## Requirements
@@ -11,6 +10,9 @@ Windows GUI for randomly browsing all pictures in a directory and its sub-direct
 * Python 3 
 * PIL
 * tkinter
+* pyperclip 
+
+(Don't need the copy-reference feature? --> See the previous version to avoid installing pyperclip.)
 
 ## Features
 * .jpg, .jpeg, .png accepted;
@@ -33,6 +35,7 @@ Windows GUI for randomly browsing all pictures in a directory and its sub-direct
 Version 1.1. By Thomas Blondelle.
 
 ## Ideas to improve it
+* Being able to copy the file in the clipboard, instead of the reference only.
 * In fullscreen: hoovering in the top right corner reveals a cross to quit;
 * Speed
 
