@@ -19,6 +19,8 @@ import os
 import pickle
 import subprocess
 
+from pyperclip import copy
+
 
 class Application(tk.Frame):
     """
@@ -108,7 +110,7 @@ class Application(tk.Frame):
         # Create a context_menu menu.
         self.aMenu = tk.Menu(self, tearoff=0, 
                              background='white', 
-                             foreground='grey9',
+                             foreground='grey7',
                              relief=tk.FLAT)
         
         self.aMenu.add_command(label="Suivant",accelerator='Espace', hidemargin=True, command=lambda :self.command_next('_'))
@@ -116,6 +118,7 @@ class Application(tk.Frame):
         self.aMenu.add_separator()
         self.aMenu.add_command(label="Ouvrir l'emplacement", accelerator='F2', command=lambda :self.open_location('_'))
         self.aMenu.add_command(label="Ouvrir un nouveau dossier", accelerator='Ctrl+N', command=lambda :self.change_dir('_'))
+        self.aMenu.add_command(label="Copier la référence", accelerator='Ctrl+C', command=lambda :self.copy_pic('_'))
         self.aMenu.add_separator()
         self.aMenu.add_command(label="Plein écran", accelerator='F11', command=lambda :self.fullscreen('_'))
         self.aMenu.add_separator()
@@ -139,6 +142,7 @@ class Application(tk.Frame):
         self.master.bind("<Double-Button-1>", self.info_message)
         self.master.bind("<F2>", self.open_location)
         self.master.bind("<Control-n>", self.change_dir)
+        self.master.bind("<Control-c>", self.copy_pic)
         self.master.bind("<Button-3>", self.context_menu)
     
     def open_location(self, event):
@@ -146,6 +150,12 @@ class Application(tk.Frame):
         selecting the current image file"""
         path = self.list_images[self.index].replace("/", "\\")
         subprocess.call(r'explorer /select,"{}"'.format(path))
+
+    def copy_pic(self, event):
+        """Copy the reference of the current image in the clipboard."""
+        name = (self.folder + self.list_images[self.index].split(self.folder)[1]).replace("/", "\\")
+        copy(name)
+        print("Référence copiée.")
         
 
     def context_menu(self, event):
