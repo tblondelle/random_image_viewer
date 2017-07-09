@@ -26,6 +26,7 @@ Windows GUI for randomly browsing all pictures in a directory and its sub-direct
 | Previous         | Alt+Space  | Scroll up    |
 | Open location    | F2         |              |
 | Change directory | Ctrl+N     |              |
+| Copy reference   | Ctrl+C     |              |
 | Fullscreen       | F11        |              |
 | Information      | F1         | Double click |
 | Quit             | Ctrl+W     | Mousewheel   |
